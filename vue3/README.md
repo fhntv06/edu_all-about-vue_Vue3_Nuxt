@@ -30,7 +30,8 @@ npm run lint
 npm run server
 ```
 
-### Edu
+### Education
+[Docs Vue.js](https://vuejs.org/)
 
 **createApp()** - create instance application.
 
