@@ -97,7 +97,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            alert(`Post with id="${id}" created!`)
+            console.warn(`Post with id="${id}" created!`)
             this.getPosts()
           } else {
             throw new Error(`Error request by create post with id="${id}"`)
@@ -125,7 +125,7 @@ export default {
       fetch(`${this.url}/${post.id}`, {method: 'DELETE'})
         .then((response) => {
           if (response.ok) {
-            alert(`Post with id="${post.id}" deleted!`)
+            console.warn(`Post with id="${post.id}" deleted!`)
             this.getPosts()
           } else {
             throw new Error(`Status not ok, in deletePost! Status deletePost is ${response.status}`)
