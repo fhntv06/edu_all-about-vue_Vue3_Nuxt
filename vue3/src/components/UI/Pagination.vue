@@ -1,12 +1,12 @@
 <!-- components/UI/Pagination.vue -->
 <template>
-  <div v-if="totalItems" class="flex items-center justify-between px-4 py-3 sm:px-6">
+  <div v-if="totalItems" class="flex items-center justify-between">
     <!-- Мобильная версия -->
-    <div class="flex flex-1 justify-between sm:hidden">
+    <div class="flex flex-1 gap-y-3 justify-between md:hidden flex-wrap">
       <button
         @click="goToPage(currentPage - 1)"
         :disabled="currentPage === 1"
-        class="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors"
+        class="relative inline-flex items-center mr-3 px-4 py-2 text-sm font-medium rounded-md transition-colors order-1"
         :class="[
           currentPage === 1
             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -15,10 +15,27 @@
       >
         Назад
       </button>
+      <div class="flex justify-center gap-x-3 md:hidden order-3 md:order-2 w-full">
+        <!-- Номера страниц -->
+        <button
+          v-for="page in visiblePages"
+          :key="page"
+          @click="goToPage(page)"
+          class="relative inline-flex items-center px-4 py-2 text-sm font-semibold transition-colors"
+          :class="[
+                page === currentPage
+                  ? 'z-10 bg-blue-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
+                  : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 bg-white'
+              ]"
+          aria-current="page"
+        >
+          {{ page }}
+        </button>
+      </div>
       <button
         @click="goToPage(currentPage + 1)"
         :disabled="currentPage === totalPages"
-        class="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors"
+        class="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors order-2 md:order-3"
         :class="[
           currentPage === totalPages
             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -30,7 +47,7 @@
     </div>
 
     <!-- Десктопная версия -->
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div class="hidden md:flex md:flex-1 md:items-center md:justify-between">
       <div>
         <p class="text-sm text-gray-700">
           Показано
@@ -158,7 +175,6 @@ export default {
       }
     }
   },
-  emits: ['pageChanged']
 }
 </script>
 
