@@ -1,16 +1,16 @@
 <template>
   <div class="p-6">
     <!-- Кнопка открытия модального окна -->
-    <div class="flex flex-wrap gap-y-10 justify-between max-w-6xl mx-auto mb-6">
-      <Button
-        @click="showModal"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Добавить пост
-      </Button>
+    <div class="flex flex-wrap gap-y-10 justify-between items-center max-w-6xl mx-auto mb-6">
       <div class="flex flex-wrap gap-3">
+        <Select
+          :label="'Вид отображения постов'"
+          :options="[
+            { value: 1, label: 'Список', icon: 'list' },
+            { value: 0, label: 'Плитка', icon: 'grid' }
+          ]"
+          @changeValue="handleChangeViewType"
+        />
         <Select
           :label="'Количество постов на странице'"
           @changeValue="handleChangeCountItemsOnPage"
@@ -21,12 +21,21 @@
           @filterChange="handleFilterChange"
         />
       </div>
+      <Button
+        @click="showModal"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Добавить пост
+      </Button>
     </div>
 
     <loader :isLoading="isLoading" />
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <post-list :posts="posts" @deletePost="deletePost" />
+    <div class="max-w-6xl mx-auto grid grid-cols-1">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Список постов</h2>
+      <post-list :posts="posts" :isViewRows="isViewRows" @deletePost="deletePost" />
     </div>
 
     <div class="max-w-6xl mx-auto mt-8">
@@ -72,6 +81,7 @@ export default {
       perPage: 2,
       pages: 1,
       items: 0,
+      isViewRows: true,
     }
   },
   setup() {
@@ -84,6 +94,9 @@ export default {
     this.updatePosts()
   },
   methods: {
+    handleChangeViewType(value) {
+      this.isViewRows = Boolean(value)
+    },
     handleFilterChange(filteredPosts) {
       this.posts = filteredPosts
     },
@@ -149,10 +162,11 @@ export default {
             if (response.ok) return response.json()
             else throw new Error(`Status updatePosts is ${response.status}`)
           })
-          .then(({data, pages, items}) => {
+          .then(({data, pages, items, next,last}) => {
             this.posts = data
             this.pages = pages
             this.items = items
+            this.page = next !== null ? next - 1 : last
           })
           .catch((error) => console.error('Error get posts ', error))
           .finally(() => {

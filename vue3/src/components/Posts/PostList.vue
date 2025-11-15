@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Список постов</h2>
-    <TransitionGroup name="list" tag="ul" v-if="posts.length">
+  <ul
+    v-if="posts.length"
+    class="grid gap-2 sm:gap-4"
+    :class="isViewRows ? 'grid-cols-1' : 'grid-cols-2'"
+  >
+    <TransitionGroup name="list">
       <post-item v-for="post in posts" :key="post.id" :post="post" @deletePost="deletePost" />
     </TransitionGroup>
-    <h3 v-else>Список постов пуст</h3>
-  </div>
+  </ul>
+  <h3 v-else>Список постов пуст</h3>
 </template>
 
 <script>
@@ -14,7 +17,8 @@ import PostItem from "@/components/Posts/PostItem.vue";
 export default {
   components: {PostItem},
   props: {
-    posts: { type: Array, default: [] }
+    posts: { type: Array, default: [] },
+    isViewRows: { type: Boolean, default: true }
   },
   methods: {
     deletePost(post) {
