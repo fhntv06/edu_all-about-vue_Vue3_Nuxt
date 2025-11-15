@@ -1,9 +1,9 @@
 <template>
   <div>
     <h2 class="text-2xl font-bold text-gray-800 mb-6">Список постов</h2>
-    <div v-if="posts.length" v-for="post in posts">
-      <post-item :key="post.id" :post="post" @deletePost="deletePost" />
-    </div>
+    <TransitionGroup name="list" tag="ul" v-if="posts.length">
+      <post-item v-for="post in posts" :key="post.id" :post="post" @deletePost="deletePost" />
+    </TransitionGroup>
     <h3 v-else>Список постов пуст</h3>
   </div>
 </template>
@@ -23,3 +23,15 @@ export default {
   }
 }
 </script>
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
