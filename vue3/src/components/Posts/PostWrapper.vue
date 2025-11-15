@@ -2,15 +2,14 @@
   <div class="p-6">
     <!-- Кнопка открытия модального окна -->
     <div class="flex justify-between max-w-6xl mx-auto mb-6">
-      <button
+      <Button
         @click="showModal"
-        class="h-max bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
         Добавить пост
-      </button>
+      </Button>
       <Filter
         :label="'Фильтр постов'"
         :data="posts"

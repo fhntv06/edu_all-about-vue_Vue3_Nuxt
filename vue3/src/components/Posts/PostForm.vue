@@ -32,19 +32,18 @@
       />
 
       <div class="flex gap-3">
-        <button
-          type="submit"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md font-medium transition-colors"
+        <Button
+          :classes="'bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md font-medium transition-colors'"
+          :type="'submit'"
         >
           Создать пост
-        </button>
-        <button
-          type="button"
-          class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-md font-medium transition-colors"
-          @click="resetForm"
+        </Button>
+        <Button
+          :classes="'bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-md font-medium transition-colors'"
+          @click="clearPost"
         >
           Очистить
-        </button>
+        </Button>
       </div>
     </form>
   </div>
@@ -52,8 +51,10 @@
 
 <script>
   import { useTemplateRef } from 'vue'
+  import Button from "@/components/UI/Button.vue";
 
   export default {
+    components: {Button},
     data() {
       return {
         post: {
