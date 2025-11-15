@@ -1,15 +1,13 @@
-<script setup>
-
-</script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <post-wrapper />
 </template>
 
-<style scoped>
+<script>
+import PostWrapper from "@/components/Posts/PostWrapper.vue";
+import {defineComponent} from "vue";
 
-</style>
+export default defineComponent({
+  components: {PostWrapper}
+})
+
+</script>
