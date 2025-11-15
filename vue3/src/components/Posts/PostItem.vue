@@ -1,8 +1,11 @@
 <template>
-  <li class="relative w-full min-w-[280px] bg-white rounded-lg shadow-md p-6 mb-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-3">{{ post.title }}</h2>
+  <li class="relative w-full bg-white rounded-lg shadow-md p-2 sm:p-6 border border-gray-200 hover:shadow-lg active:shadow-lg transition-shadow">
+    <h2 class="pr-6 sm:text-2xl font-bold text-gray-800 mb-3">{{ post.title }}</h2>
     <div class="text-gray-600 mb-4">
-      {{ post.content }}
+      <!-- Для десктопа показываем полный текст -->
+      <span class="hidden sm:inline">{{ post.content }}</span>
+      <!-- Для мобильных обрезаем через CSS -->
+      <span class="sm:hidden mobile-truncate">{{ post.content }}</span>
     </div>
     <div class="flex items-center justify-between text-sm text-gray-500">
       <span>Автор: {{ post.author }}</span>
@@ -37,3 +40,11 @@
     },
   }
 </script>
+<style scoped>
+.mobile-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Ограничиваем 3 строками (примерно 8 слов) */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
