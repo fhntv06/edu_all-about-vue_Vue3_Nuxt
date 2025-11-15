@@ -1,8 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md p-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Создать новый пост</h2>
-
-    <form class="space-y-4" id="postForm" ref="refForm" @submit.prevent="createPost">
+  <form class="space-y-4" id="postForm" ref="refForm" @submit.prevent="createPost">
       <field
         :id="'title'"
         :name="'title'"
@@ -46,7 +43,6 @@
         </Button>
       </div>
     </form>
-  </div>
 </template>
 
 <script>

@@ -1,10 +1,10 @@
 <template>
   <transition name="modal">
-    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray bg-opacity-50">
+    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-200/50">
       <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-hidden">
         <!-- Заголовок -->
         <div class="flex justify-between items-center px-6 py-4 border-b">
-          <h2 class="text-xl font-semibold text-gray-800">{{ title }}</h2>
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ title }}</h2>
           <button
             @click="$emit('close')"
             class="p-1 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
