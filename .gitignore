@@ -34,3 +34,8 @@ coverage
 
 # Vitest
 __screenshots__/
+
+# JSON-SERVER
+/db.json
+
+package-json.lock
