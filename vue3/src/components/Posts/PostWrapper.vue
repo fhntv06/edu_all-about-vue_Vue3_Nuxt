@@ -1,16 +1,21 @@
 <template>
   <div class="p-6">
     <!-- Кнопка открытия модального окна -->
-    <div class="max-w-6xl mx-auto mb-6">
+    <div class="flex justify-between max-w-6xl mx-auto mb-6">
       <button
         @click="showModal"
-        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+        class="h-max bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>
         Добавить пост
       </button>
+      <Filter
+        :label="'Фильтр постов'"
+        :data="posts"
+        @filterChange="handleFilterChange"
+      />
     </div>
 
     <loader :isLoading="isLoading" />
@@ -34,9 +39,11 @@ import { ref } from "vue";
 import PostForm from "@/components/Posts/PostForm.vue";
 import PostList from "@/components/Posts/PostList.vue";
 import Loader from "@/components/UI/Loader.vue";
+import PostFilter from "@/components/UI/Filter.vue";
 
 export default {
   components: {
+    PostFilter,
     Loader,
     PostList,
     PostForm,
@@ -45,7 +52,7 @@ export default {
     return {
       url: 'http://localhost:8888/posts',
       isModalOpen: false,
-      isLoading: false
+      isLoading: false,
     }
   },
   setup() {
@@ -60,6 +67,9 @@ export default {
     }, 1000)
   },
   methods: {
+    handleFilterChange(filteredPosts) {
+      this.posts = filteredPosts
+    },
     showModal() {
       this.isModalOpen = true
     },
@@ -73,7 +83,7 @@ export default {
     createPost(post) {
       this.isLoading = true
       const id = Date.now().toString()
-      const postDate = new Date();
+      const postDate = new Date()
 
       fetch(this.url, {
         method: 'POST',
