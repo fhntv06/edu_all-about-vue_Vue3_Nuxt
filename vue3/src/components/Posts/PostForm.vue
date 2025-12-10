@@ -47,12 +47,12 @@
 
 <script>
   import { useTemplateRef } from 'vue'
-  import Button from "@/components/UI/Button.vue";
+  import { useRouter } from 'vue-router'
 
   export default {
-    components: {Button},
     data() {
       return {
+        url: 'http://localhost:8888/posts',
         post: {
           title: '',
           content: '',
@@ -62,14 +62,36 @@
     },
     setup() {
       const refForm = useTemplateRef('refForm')
+      const router = useRouter()
 
-      return { refForm }
+      return { refForm, router }
     },
     methods: {
       createPost() {
-        this.$emit('createPost', this.post)
+        const id = Date.now().toString()
+        const postDate = new Date()
 
-        this.clearPost()
+        fetch(this.url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...this.post,
+            id,
+            date: `${postDate.getDate()}.${postDate.getMonth() + 1}.${postDate.getFullYear()}`
+          })
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.warn(`Post with id="${id}" created!`)
+              this.clearPost()
+              this.router.push('/dashboard/posts')
+            } else {
+              throw new Error(`Error request by create post with id="${id}"`)
+            }
+          })
+          .catch((error) => console.error(error))
       },
       clearPost() {
         this.refForm.reset()
