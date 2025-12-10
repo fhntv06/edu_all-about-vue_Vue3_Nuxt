@@ -1,3 +1,4 @@
+import Breadcrumbs from "@/components/UI/Breadcrumbs.vue";
 import Button from "@/components/UI/Button.vue";
 import Field from "@/components/UI/Field.vue";
 import Filter from "@/components/UI/Filter.vue";
@@ -7,5 +8,5 @@ import Select from "@/components/UI/Select.vue";
 import Pagination from "@/components/UI/Pagination.vue";
 
 export default [
-  Button, Field, Filter, Loader, Modal, Select, Pagination
+  Breadcrumbs, Button, Field, Filter, Loader, Modal, Select, Pagination
 ]
