@@ -32,6 +32,10 @@ class UserFactory extends Factory
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
             'two_factor_confirmed_at' => now(),
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'company' => fake()->company(),
+            'position' => fake()->word(),
         ];
     }
 
