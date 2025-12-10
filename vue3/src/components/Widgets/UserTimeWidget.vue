@@ -22,7 +22,7 @@
         <div class="text-lg text-gray-600 mt-1">{{ currentDate }}</div>
         <div class="text-sm text-gray-500 mt-2 flex items-center">
           <span class="w-3 h-3 bg-blue-400 rounded-full mr-2"></span>
-          {{ userCity.name }}, {{ userCity.country }}
+          {{ userCity.label }}, {{ userCity.country }}
         </div>
         <div class="text-xs text-gray-400 mt-1">{{ timezoneInfo }}</div>
       </div>
