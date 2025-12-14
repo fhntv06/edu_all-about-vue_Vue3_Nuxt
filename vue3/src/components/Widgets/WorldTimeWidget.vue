@@ -53,25 +53,20 @@ export default {
   setup() {
     const
       { userCity, isLoading } = useGeolocation(),
-      selectedCity = ref(null),
       worldTime = ref(''),
       worldDate = ref(''),
       timezoneInfo = ref(''),
       cities = ref(CITIES)
 
-      selectedCity.value = cities.value.find((city) => city.value === userCity.value)
-
-      console.log(selectedCity)
     return {
-      userCity, isLoading, selectedCity,
+      userCity, isLoading,
       worldTime, worldDate, timezoneInfo,
       cities
     }
   },
   computed: {
     selectedCityLabel() {
-      console.log(this.selectedCity.value)
-      const { label, country, timezone } = this.selectedCity.value
+      const { label, country, timezone } = this.userCity.value
 
       this.timezoneInfo = timezone
 
@@ -86,16 +81,15 @@ export default {
     },
     updateTime() {
       const now = new Date()
-
       this.worldTime = now.toLocaleTimeString('ru-RU', {
-        timeZone: this.selectedCity.timezone,
+        timeZone: this.userCity.timezone,
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
       })
 
       this.worldDate = now.toLocaleDateString('ru-RU', {
-        timeZone: this.selectedCity.timezone,
+        timeZone: this.userCity.timezone,
         weekday: 'long',
         year: 'numeric',
         month: 'long',
