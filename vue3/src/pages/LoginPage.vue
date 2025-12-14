@@ -64,9 +64,9 @@
           </div>
 
           <div class="text-sm">
-            <a href="#" @click.prevent="$router.push('/forgot-password')" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+            <router-link to="/forgot-password" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
               Забыли пароль?
-            </a>
+            </router-link>
           </div>
         </div>
 
@@ -117,9 +117,9 @@
       <div class="text-center">
         <p class="text-sm text-gray-600">
           Нет аккаунта?
-          <a href="#" @click.prevent="$router.push('/registration')" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+          <router-link to="/registration" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
             Зарегистрироваться
-          </a>
+          </router-link>
         </p>
       </div>
     </div>
@@ -148,7 +148,7 @@ export default {
   mounted() {
     // Если пользователь уже авторизован, перенаправляем на главную
     if (this.isAuthenticated) {
-      this.$router.push('/')
+      this.$router.push('/dashboard')
     }
   },
   methods: {
@@ -177,7 +177,7 @@ export default {
         localStorage.setItem('user-data', JSON.stringify(response.user))
 
         // Успешная авторизация
-        this.$router.push('/')
+        this.$router.push('/dashboard')
       } catch (error) {
         this.error = error.message
       } finally {

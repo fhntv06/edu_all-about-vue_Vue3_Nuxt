@@ -17,7 +17,7 @@
         <WorldTimeWidget />
       </div>
       <div class="grid col-span-full lg:col-span-2 xl:col-span-1">
-<!--        <WeatherWidget />-->
+        <WeatherWidget />
       </div>
     </div>
 

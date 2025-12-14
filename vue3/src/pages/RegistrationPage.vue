@@ -28,7 +28,6 @@
             v-model="form.name"
             name="name"
             type="text"
-            required
             class="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
             placeholder="Введите ваше имя"
             :class="{ 'border-red-300': validation.name.valid === false }"
@@ -48,7 +47,6 @@
             v-model="form.username"
             name="username"
             type="text"
-            required
             class="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
             placeholder="Придумайте логин"
             :class="{ 'border-red-300': validation.username.valid === false }"
@@ -68,7 +66,6 @@
             v-model="form.email"
             name="email"
             type="email"
-            required
             class="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
             placeholder="example@mail.com"
             :class="{ 'border-red-300': validation.email.valid === false }"
@@ -107,7 +104,6 @@
             v-model="form.password"
             name="password"
             type="password"
-            required
             class="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
             placeholder="Минимум 6 символов"
             :class="{ 'border-red-300': validation.password.valid === false }"
@@ -127,7 +123,6 @@
             v-model="form.confirmPassword"
             name="confirmPassword"
             type="password"
-            required
             class="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
             placeholder="Повторите пароль"
             :class="{ 'border-red-300': validation.confirmPassword.valid === false }"
@@ -145,7 +140,6 @@
               v-model="form.privacyAccepted"
               name="privacy"
               type="checkbox"
-              required
               class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded mt-1"
               :class="{ 'border-red-300': validation.privacyAccepted.valid === false }"
             >
@@ -198,7 +192,7 @@
                 Регистрация успешна!
               </h3>
               <div class="mt-2 text-sm text-green-700">
-                <p>Аккаунт успешно создан. Вы будете перенаправлены на страницу входа.</p>
+                <p>Аккаунт успешно создан. Вы будете перенаправлены в панель управления.</p>
               </div>
             </div>
           </div>
@@ -228,9 +222,9 @@
       <div class="text-center">
         <p class="text-sm text-gray-600">
           Уже есть аккаунт?
-          <a href="#" @click.prevent="goToLogin" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-            Войти
-          </a>
+          <router-link to="/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+            Войти в систему
+          </router-link>
         </p>
       </div>
     </div>
@@ -273,7 +267,7 @@ export default {
   mounted() {
     // Если пользователь уже авторизован, перенаправляем на главную
     if (this.isAuthenticated) {
-      this.$router.push('/')
+      this.$router.push('/dashboard')
     }
   },
   methods: {
@@ -285,8 +279,8 @@ export default {
         return false
       }
 
-      if (value.length < 2) {
-        this.validation.name = {valid: false, message: 'Имя должно содержать минимум 2 символа'}
+      if (value.length <= 3) {
+        this.validation.name = {valid: false, message: 'Имя должно содержать более 3-х символов'}
         return false
       }
 
@@ -301,12 +295,8 @@ export default {
         this.validation.username = {valid: false, message: 'Логин обязателен для заполнения'}
         return false
       }
-
-      if (value.length < 3) {
-        this.validation.username = {
-          valid: false,
-          message: 'Логин должен содержать минимум 3 символа'
-        }
+      if (value.length <= 3) {
+        this.validation.username = {valid: false, message: 'Логин должно содержать более 3-х символов'}
         return false
       }
 
@@ -443,7 +433,7 @@ export default {
 
         // Автоматический переход через 2 секунды
         setTimeout(() => {
-          this.$router.push('/')
+          this.$router.push('/dashboard')
         }, 2000)
       } catch (error) {
         this.error = error.message
@@ -460,27 +450,24 @@ export default {
 
           if (existingUsers.includes(this.form.username)) {
             reject(new Error('Пользователь с таким логином уже существует'))
-          } else if (existingEmails.includes(this.form.email)) {
-            reject(new Error('Пользователь с таким email уже существует'))
-          } else {
-            resolve({
-              user: {
-                id: Date.now(),
-                name: this.form.name,
-                username: this.form.username,
-                email: this.form.email,
-                phone: this.form.phone
-              },
-              token: 'mock-jwt-token-' + Date.now()
-            })
           }
+          if (existingEmails.includes(this.form.email)) {
+            reject(new Error('Пользователь с таким email уже существует'))
+          }
+
+          resolve({
+            user: {
+              id: Date.now(),
+              name: this.form.name,
+              username: this.form.username,
+              email: this.form.email,
+              phone: this.form.phone
+            },
+            token: 'mock-jwt-token-' + Date.now()
+          })
         }, 2000)
       })
     },
-
-    goToLogin() {
-      this.$router.push('/login')
-    }
   }
 }
 </script>

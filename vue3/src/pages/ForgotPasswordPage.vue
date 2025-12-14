@@ -12,7 +12,7 @@
           Восстановление пароля
         </h2>
         <p class="mt-2 text-sm text-gray-600">
-          Введите ваш email или телефон, и мы вышлем инструкции для восстановления пароля
+          Введите ваш email, и мы вышлем инструкции для восстановления пароля
         </p>
       </div>
 
@@ -20,7 +20,7 @@
       <form class="mt-8 space-y-6" @submit.prevent="handleResetPassword">
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-            Email или телефон
+            Email
           </label>
           <input
             id="email"
@@ -29,7 +29,7 @@
             type="text"
             required
             class="relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-colors"
-            placeholder="Введите ваш email или телефон"
+            placeholder="Введите ваш email"
             :class="{ 'border-red-300': validation.email.valid === false }"
           >
           <p v-if="validation.email.valid === false" class="mt-1 text-sm text-red-600">
@@ -103,15 +103,15 @@
       <div class="text-center space-y-2">
         <p class="text-sm text-gray-600">
           Вспомнили пароль?
-          <a href="#" @click.prevent="goToLogin" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+          <router-link to="/login" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
             Войти
-          </a>
+          </router-link>
         </p>
         <p class="text-sm text-gray-600">
           Нет аккаунта?
-          <a href="#" @click.prevent="$router.push('/registration')" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+          <router-link to="/registration" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
             Зарегистрироваться
-          </a>
+          </router-link>
         </p>
       </div>
     </div>
@@ -142,7 +142,7 @@ export default {
   mounted() {
     // Если пользователь уже авторизован, перенаправляем на главную
     if (this.isAuthenticated) {
-      this.$router.push('/')
+      this.$router.push('/dashboard')
     }
   },
   methods: {
@@ -154,12 +154,11 @@ export default {
         return false
       }
 
-      // Проверка на email или телефон
+      // Проверка на email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      const phoneRegex = /^\+?[78][-\(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/
 
-      if (!emailRegex.test(value) && !phoneRegex.test(value)) {
-        this.validation.email = { valid: false, message: 'Введите корректный email или телефон' }
+      if (!emailRegex.test(value)) {
+        this.validation.email = { valid: false, message: 'Введите корректный email' }
         return false
       }
 
@@ -183,11 +182,6 @@ export default {
         // Имитация запроса к API
         await this.mockResetPassword()
         this.isSuccess = true
-
-        // Автоматический переход через 3 секунды
-        setTimeout(() => {
-          this.goToLogin()
-        }, 3000)
       } catch (error) {
         this.error = error.message
       } finally {
@@ -199,7 +193,7 @@ export default {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           // Mock логика проверки существования пользователя
-          const existingUsers = ['admin@example.com', 'user@test.ru', '+79991234567']
+          const existingUsers = ['admin@example.com', 'user@test.ru']
 
           if (existingUsers.includes(this.form.email)) {
             resolve({ success: true, message: 'Инструкции отправлены' })
@@ -209,10 +203,6 @@ export default {
         }, 2000)
       })
     },
-
-    goToLogin() {
-      this.$router.push('/login')
-    }
   }
 }
 </script>
