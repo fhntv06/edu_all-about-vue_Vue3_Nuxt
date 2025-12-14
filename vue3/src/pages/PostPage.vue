@@ -53,6 +53,7 @@ import PostForm from "@/components/Posts/PostForm.vue";
 import PostList from "@/components/Posts/PostList.vue";
 import Loader from "@/components/UI/Loader.vue";
 import PostFilter from "@/components/UI/Filter.vue";
+import { apiConfig } from '@/config'
 
 export default {
   components: {
@@ -63,7 +64,7 @@ export default {
   },
   data() {
     return {
-      url: 'http://localhost:8888/posts',
+      url: apiConfig.baseURL,
       isModalOpen: false,
       isLoading: false,
       page: 1,

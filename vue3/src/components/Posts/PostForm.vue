@@ -48,11 +48,12 @@
 <script>
   import { useTemplateRef } from 'vue'
   import { useRouter } from 'vue-router'
+  import { apiConfig } from '@/config'
 
   export default {
     data() {
       return {
-        url: 'http://localhost:8888/posts',
+        url: apiConfig.baseURL,
         post: {
           title: '',
           content: '',

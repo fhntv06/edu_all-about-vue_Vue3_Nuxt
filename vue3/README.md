@@ -5,6 +5,7 @@
 create file .env.local:
 variables for app:
 - VUE_APP_WEATHER_API_KEY=your_api_key_from_openweather
+- VUE_APP_URL_API=your_api_url
 
 used in app: console.log(process.env.VUE_APP_WEATHER_API_KEY)
 
