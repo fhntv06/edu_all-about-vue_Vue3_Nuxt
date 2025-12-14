@@ -1,6 +1,4 @@
-import { createStore } from 'vuex'
-
-const authStore = createStore({
+const authStore = {
   state: {
     user: null,
     token: localStorage.getItem('auth-token') || null,
@@ -24,6 +22,7 @@ const authStore = createStore({
       state.token = null
       state.isAuthenticated = false
       localStorage.removeItem('auth-token')
+      localStorage.removeItem('user-data')
     }
   },
   actions: {
@@ -52,5 +51,6 @@ const authStore = createStore({
     currentUser: state => state.user,
     authToken: state => state.token
   }
-})
+}
+
 export default authStore
