@@ -19,7 +19,7 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        name: 'Dashboard',
+        name: 'Панель управления',
         path: '', // Относительный путь
         component: DashboardPage,
         meta: {
@@ -37,7 +37,7 @@ const routes = [
         },
         children: [
           {
-            name: 'PostList',
+            name: 'Список постов',
             path: '', // Относительный путь - будет /dashboard/posts
             component: PostPage,
             meta: {
@@ -46,7 +46,7 @@ const routes = [
             }
           },
           {
-            name: 'CreatePost',
+            name: 'Создание поста',
             path: 'create', // Относительный путь - будет /dashboard/posts/create
             component: PostCreatePage,
             meta: {
@@ -57,7 +57,7 @@ const routes = [
         ]
       },
       {
-        name: 'Analytics',
+        name: 'Аналитика',
         path: 'analytics', // Относительный путь
         component: AnalyticsPage,
         meta: {
