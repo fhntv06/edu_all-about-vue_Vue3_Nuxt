@@ -421,13 +421,13 @@ export default {
   },
   methods: {
     async handleLogout() {
-      this.$store.authStore.commit('LOGOUT')
+      this.$store.state.authStore.commit('LOGOUT')
       this.$router.push('/')
     }
   },
   computed: {
     isAuthenticated() {
-      return this.$store.authStore.state.isAuthenticated
+      return this.$store.state.authStore.isAuthenticated
     }
   },
 }
