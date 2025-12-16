@@ -7,15 +7,11 @@ export const useGeolocation = () => {
   const error = ref(null)
 
   const detectUserLocation = () => {
-    console.log('detectUserLocation')
-
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords
         userCity.value = getCityByCoordinates(latitude, longitude)
         isLoading.value = false
-
-        console.log('detectUserLocation success')
       },
       (err) => {
         console.warn('Geolocation error:', err)
@@ -32,7 +28,6 @@ export const useGeolocation = () => {
         }
 
         isLoading.value = false
-        console.log('detectUserLocation error')
       },
       {
         maximumAge: 300000 // 5 минут кэш

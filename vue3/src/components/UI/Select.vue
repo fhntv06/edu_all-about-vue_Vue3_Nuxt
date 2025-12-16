@@ -51,10 +51,6 @@
 export default {
   name: 'Select',
   props: {
-    data: {
-      type: Array,
-      default: () => []
-    },
     label: {
       type: String,
       default: 'Количество записей на странице'
