@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white overflow-hidden shadow rounded-lg">
-    <div class="p-5">
-      <div class="flex items-center justify-between mb-4">
+  <div class="bg-white shadow rounded-lg">
+    <div class="p-5 flex flex-col h-full">
+      <div class="flex flex-col gap-y-3 justify-between mb-4">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
@@ -15,16 +15,11 @@
             <p class="text-sm text-gray-500">Текущая погода в городах</p>
           </div>
         </div>
-        <select
-          v-model="selectedCity"
-          @change="fetchWeather"
-          class="ml-4 block w-40 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-          :disabled="isLoading"
-        >
-          <option v-for="city in cities" :key="city" :value="city">
-            {{ city.label }}
-          </option>
-        </select>
+        <Select
+          :label="'Выбор города'"
+          :options="cities"
+          @changeValue="fetchWeather"
+        />
       </div>
 
       <div v-if="isLoading" class="mt-4 flex justify-center items-center py-8">
@@ -72,12 +67,15 @@
 
       <div v-else-if="error" class="mt-4 text-center py-4">
         <div class="text-red-500 text-sm">{{ error }}</div>
-        <button
-          @click="fetchWeather"
-          class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-        >
+        <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors" @click="() => fetchWeather()">
           Попробовать снова
         </button>
+      </div>
+      <div v-else class="mmt-4 text-center py-4">
+        <p class="text-red-500 text-sm">{{ error }}</p>
+        <Button @click="() => fetchWeather()">
+          Попробовать снова
+        </Button>
       </div>
     </div>
   </div>
@@ -93,11 +91,16 @@ export default {
   data() {
     return {
       cities: CITIES,
-      isLoading: false,
       selectedCityId: null,
       weather: null,
-      error: null,
+      error: 'Нет данных о погоде',
+      isLoading: true,
     }
+  },
+  setup() {
+    const { userCity } = useGeolocation()
+
+    return { userCity }
   },
   computed: {
     haveApiUrl() {
@@ -113,22 +116,18 @@ export default {
         minute: '2-digit'
       })
     },
-    // Выбранный город
-    selectedCity(newCity) {
-      console.log(newCity)
-      return this.selectedCityId?.name || this.cities[0]
-    },
   },
   methods: {
-    initializeUserCity() {
-      const { userCity, isLoading } = useGeolocation()
-      console.log(userCity)
+    fetchWeather(value) {
+      this.isLoading = true
 
-      if (userCity.value && !this.selectedCityId) {
-        this.selectedCityId = userCity.value.id
+      if (!value && !this.selectedCityId) {
+
+        this.selectedCityId = this.userCity ? this.userCity.value : this.cities[0].value
+      } else {
+        this.selectedCityId = value
       }
-    },
-    fetchWeather() {
+
       if (!this.haveApiKey) {
         this.error = 'API ключ не настроен'
         return
@@ -138,14 +137,9 @@ export default {
         return
       }
 
-      this.isLoading = true
       this.error = ''
 
-      console.log(this.selectedCity)
-
       const url = `${weatherConfig.apiUrl}?q=${this.selectedCityId}&appid=${weatherConfig.apiKey}&units=metric&lang=ru`
-
-      console.log(this.cities[2])
 
       fetch(url)
         .then((response) => {
@@ -175,8 +169,7 @@ export default {
     }
   },
   mounted() {
-    this.initializeUserCity()
     this.fetchWeather()
-  },
+  }
 }
 </script>

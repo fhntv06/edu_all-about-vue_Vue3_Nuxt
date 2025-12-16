@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white overflow-hidden shadow rounded-lg">
-    <div class="p-5">
+    <div class="p-5 flex flex-col h-full">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
@@ -14,17 +14,17 @@
           <p class="text-sm text-gray-500">Текущее местное время</p>
         </div>
       </div>
-      <div v-if="isLoading" class="mt-4 flex justify-center items-center py-8">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      <div v-if="isLoading" class="relative h-full mt-4 flex justify-center items-center py-8">
+        <div class="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
-      <div v-else class="mt-4">
+      <div v-else class="mt-auto">
         <div class="text-2xl font-bold text-gray-900">{{ currentTime }}</div>
         <div class="text-lg text-gray-600 mt-1">{{ currentDate }}</div>
         <div class="text-sm text-gray-500 mt-2 flex items-center">
           <span class="w-3 h-3 bg-blue-400 rounded-full mr-2"></span>
           {{ userCity.label }}, {{ userCity.country }}
         </div>
-        <div class="text-xs text-gray-400 mt-1">{{ timezoneInfo }}</div>
+        <div class="text-xs text-gray-400 mt-1">{{ this.userCity.timezone }}</div>
       </div>
     </div>
   </div>
@@ -38,15 +38,14 @@ export default {
   name: 'UserTimeWidget',
   data() {
     return {
-      timezoneInfo: '',
+      currentTime: '',
+      currentDate: '',
     }
   },
   setup() {
     const { userCity, isLoading } = useGeolocation()
-    const currentTime = ref('')
-    const currentDate = ref('')
 
-    return { userCity, currentTime, currentDate, isLoading }
+    return { userCity, isLoading }
   },
   watch: {
     isLoading(newIsLoading) {
@@ -74,8 +73,6 @@ export default {
         month: 'long',
         day: 'numeric'
       })
-
-      this.timezoneInfo = this.userCity.timezone
     }
   },
   unmounted() {
