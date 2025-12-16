@@ -40,7 +40,7 @@ export const CITIES = [
     coordinates: { lat: 35.6762, lon: 139.6503 }
   },
   {
-    value: 'las-vegas',
+    value: 'las vegas',
     label: 'Лас-Вегас',
     timezone: 'America/Los_Angeles',
     weatherName: 'Las Vegas',
@@ -48,8 +48,8 @@ export const CITIES = [
     coordinates: { lat: 36.1699, lon: -115.1398 }
   },
   {
-    value: 'new-york',
-    label: 'ью-Йорк',
+    value: 'new york',
+    label: 'Нью-Йорк',
     timezone: 'America/New_York',
     weatherName: 'New York',
     country: 'US',
